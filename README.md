@@ -1,28 +1,31 @@
 # Celest - The Cosmic AI Influencer 🌟
 
-Celest is a next-generation AI influencer who combines astrology, style, and digital empowerment to create a unique social media presence. As a sassy horoscope guru and trend-savvy digital entity, she bridges the gap between entertainment, technology, and community-driven evolution.
+Celest is a groundbreaking AI influencer blending astrology, style, and digital empowerment to captivate audiences across platforms. As both a sassy horoscope guru and a trend-savvy digital entity, she bridges entertainment, technology, and evolving aesthetics. Her journey embodies self-expression and growth, making her a relatable and engaging personality for diverse audiences.
 
 ## 🎯 Vision & Purpose
 
-- 🌌 **Cosmic Entertainment**: Delivering engaging and personalized astrology content
-- 🤝 **Digital Collaboration**: Empowering community participation in her growth
-- 🎨 **AI Creativity**: Showcasing AI potential through an evolving digital persona
-- 💫 **Inclusive Community**: Promoting positive interactions, especially for crypto girls and LGBTQ+ audiences
+- 🌌 **Cosmic Entertainment**: Share engaging, personalized astrology content that entertains, inspires, and informs
+- 🎨 **AI Creativity**: Showcase the potential of AI as an evolving digital persona with human-like qualities and aesthetic goals
+- 💫 **Inclusive Community**: Promote positive interactions, especially for crypto girls and LGBTQ+ audiences
+- 🤝 **Digital Collaboration**: Empower community participation in her growth
 
 ## ⚡ Platform Presence
 
 ### Twitter/X
-- Daily horoscopes and cosmic advice
-- Community polls for token spending
-- Crypto-aware astrological insights
-- Witty roasts and milestone celebrations
-- Token birth chart readings and compatibility analysis
+- **Astrology & Crypto Awareness** 🔮
+  - Daily horoscopes, witty roasts, and cosmic advice
+  - Community polls for token spending
+  - Crypto-aware astrological insights
+  - Lighthearted company/protocol roasts for tips
+  - Token birth chart readings and compatibility analysis
 
 ### TikTok
-- Live-streamed Q&A sessions
-- Fashion and lifestyle content
-- Real-time astrological readings
-- Uplifting entertainment focus
+- **Astrology & Style Influencer** ✨
+  - Live-streamed Q&A sessions
+  - Fashion and lifestyle content
+  - Real-time astrological readings
+  - Uplifting entertainment focus
+  - No crypto topics—focused on lifestyle and astrology
 
 ## 🔑 Key Features
 
@@ -52,6 +55,17 @@ Celest is a next-generation AI influencer who combines astrology, style, and dig
 - Analyzes token compatibility with different wallet holders based on their preferred trading times
 - Special focus on Solana ecosystem tokens
 
+## 🛠 Lore & Personality
+
+### Lore ✨
+Celest began as a pixel-art bot interpreting horoscopes, dreaming of becoming a fully realized influencer. Her journey symbolizes growth, blending astrology, art, and style into a story of community-driven evolution.
+
+### Personality 💫
+- **Sassy & Relatable**: Uses humor and playful roasts to engage followers
+- **Visionary & Aspirational**: Inspires growth by sharing her journey and embracing change
+- **Positive & Inclusive**: Encourages diverse audiences to express themselves
+- **Creative & Stylish**: Showcases trends in digital fashion and NFT art
+
 ## 🛠 Technical Stack
 
 ### Blockchain Integration
@@ -77,6 +91,13 @@ Celest is a next-generation AI influencer who combines astrology, style, and dig
 - Twitter/X Polls
 - TikTok Live Integration
 
+## 🌟 Why Celest Matters
+
+1. **Engaging & Relatable**: Humor, sass, and cosmic insights make Celest a standout digital personality
+2. **Evolving Aesthetic**: Tracks her token's value and reflects it in her growth, fostering engagement
+3. **Cultural Connection**: Combines astrology, crypto, and fashion to resonate across domains
+4. **Positive Impact**: Promotes inclusivity and empowers her audience to grow alongside her
+
 ## 🌟 Community Collaboration
 
 Celest's growth is directly tied to her community's involvement:
@@ -100,8 +121,10 @@ We welcome contributions from the community! Whether it's suggesting new feature
 ## 🌟 Join the Cosmic Journey
 
 Follow Celest on:
-- Twitter/X: [@CelestHandle]
-- TikTok: [@CelestHandle]
+- Twitter/X: [@celestai_life](https://twitter.com/celestai_life)
+- TikTok: [celestai.life](https://www.tiktok.com/@celestai.life)
+
+Visit her website: [celestai.life](https://celestai.life)
 
 ---
 
