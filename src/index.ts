@@ -4,7 +4,7 @@ import { DirectClientInterface } from "@ai16z/client-direct";
 import { DiscordClientInterface } from "@ai16z/client-discord";
 import { AutoClientInterface } from "@ai16z/client-auto";
 import { TelegramClientInterface } from "@ai16z/client-telegram";
-import { TwitterClientInterface } from "@ai16z/client-twitter";
+import { TwitterClientInterface } from "../local_modules/client-twitter/src/index.ts";
 import {
   DbCacheAdapter,
   defaultCharacter,
