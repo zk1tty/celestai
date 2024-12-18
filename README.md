@@ -131,7 +131,7 @@ Visit her website: [celestai.life](https://celestai.life)
 *Celest: Where astrology meets AI, and sass meets style* ✨ 
 
 ---
-# Tech starck: Eliza
+## Tech starck: Eliza
 
 ### Celest characters
 
