@@ -1,6 +1,6 @@
 import { TwitterPostClient } from "./post.ts";
 // search is outdates and issue type error.
-// import { TwitterSearchClient } from "./search.ts";
+import { TwitterSearchClient } from "./search.ts";
 import { TwitterInteractionClient } from "./interactions.ts";
 import { IAgentRuntime, Client, elizaLogger } from "@ai16z/eliza";
 import { validateTwitterConfig } from "./enviroment.ts";
@@ -9,11 +9,12 @@ import { ClientBase } from "./base.ts";
 class TwitterManager {
     client: ClientBase;
     post: TwitterPostClient;
-     // search: TwitterSearchClient;
+    // search: TwitterSearchClient;
     interaction: TwitterInteractionClient;
+
     constructor(runtime: IAgentRuntime) {
         this.client = new ClientBase(runtime);
-        this.post = new TwitterPostClient(this.client, runtime);
+        // this.post = new TwitterPostClient(this.client, runtime);
         // this.search = new TwitterSearchClient(runtime); // don't start the search client by default
         // this searches topics from character file, but kind of violates consent of random users
         // burns your rate limit and can get your account banned
@@ -32,7 +33,8 @@ export const TwitterClientInterface: Client = {
 
         await manager.client.init();
 
-        await manager.post.start();
+        // TODO: debug all prompto and result
+        // await manager.post.start();
 
         await manager.interaction.start();
 
