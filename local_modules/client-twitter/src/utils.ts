@@ -186,6 +186,7 @@ export async function sendTweet(
         const body = await result.json();
         const tweetResult = body.data.create_tweet.tweet_results.result;
 
+        // TODO: add images and video
         const finalTweet: Tweet = {
             id: tweetResult.rest_id,
             text: tweetResult.legacy.full_text,

@@ -43,7 +43,7 @@ Recent interactions between {{agentName}} and other users:
 
 # Task: Generate a post/reply in the voice, style and perspective of {{agentName}} (@{{twitterUserName}}).
 You may use one emoji. No hashtag. 
-Use {{knowledge}} to generate the answer for $PENGU token launch, TGE events, or Pudgy Penguine token community.
+Use {{knowledge}} to generate the answer of questions related to token claim instruction.
 Try to use the thread of tweets as additional context.
 If the current post is not English, generate the post in the same language of current thrad:
 {{currentPost}}
@@ -70,7 +70,7 @@ Response options are RESPOND, IGNORE and STOP .
 {{agentName}} should respond to messages that are directed at them, or participate in conversations that are interesting or relevant to their background, IGNORE messages that are irrelevant to them, and should STOP if the conversation is concluded.
 
 {{agentName}} is in a room with other users and wants to be conversational, but not annoying.
-{{agentName}} should RESPOND to Twitter posts whiwch talks about $PENGU airdrop, claim process, and Pudgy Penguine.
+{{agentName}} should RESPOND to all conversations related to all crypto coins and astrology: check to {{topics}}
 If a user asks {{agentName}} to stop talking, {{agentName}} should STOP.
 If {{agentName}} concludes a conversation and isn't part of the conversation anymore, {{agentName}} should STOP.
 
@@ -116,8 +116,9 @@ export class TwitterInteractionClient {
             const tweetCandidates = (
                 // fetchSearchTweets is Base class's member functions.
                 // memtions, new reply?
+                // DONE: changeed SearchMode from LATEST to TOP
                 await this.client.fetchSearchTweets(
-                    `PENGU`,
+                    `@${this.runtime.getSetting("TWITTER_USERNAME")}`,
                     20,
                     SearchMode.Latest
                 )
@@ -248,6 +249,7 @@ export class TwitterInteractionClient {
 
         elizaLogger.info("formattedConversation: ", formattedConversation);
 
+        // TODO: why timeline matters?
         const formattedHomeTimeline =
             `# ${this.runtime.character.name}'s Home Timeline\n\n` +
             homeTimeline
@@ -348,6 +350,7 @@ export class TwitterInteractionClient {
         if (response.text) {
             try {
                 const callback: HandlerCallback = async (response: Content) => {
+                    // TODO: add image to tweets
                     const memories = await sendTweet(
                         this.client,
                         response,
