@@ -276,13 +276,15 @@ export class TwitterSearchClient extends ClientBase {
                 `Bot would respond to tweet ${selectedTweet.id} with: ${response.text}`
             );
             try {
+                const image = "";
                 const callback: HandlerCallback = async (response: Content) => {
                     const memories = await sendTweet(
                         this,
                         response,
                         message.roomId,
                         this.runtime.getSetting("TWITTER_USERNAME"),
-                        tweetId
+                        tweetId,
+                        image
                     );
                     return memories;
                 };

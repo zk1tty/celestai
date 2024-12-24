@@ -4,6 +4,7 @@ import { Content, Memory, UUID } from "@ai16z/eliza";
 import { stringToUuid } from "@ai16z/eliza";
 import { ClientBase } from "./base";
 import { elizaLogger } from "@ai16z/eliza";
+import fs from 'fs';
 
 const MAX_TWEET_LENGTH = 280; // Updated to Twitter's current character limit
 
@@ -168,18 +169,30 @@ export async function sendTweet(
     content: Content,
     roomId: UUID,
     twitterUsername: string,
-    inReplyTo: string
+    inReplyTo: string,
+    image: any
 ): Promise<Memory[]> {
     const tweetChunks = splitTweetContent(content.text);
     const sentTweets: Tweet[] = [];
     let previousTweetId = inReplyTo;
 
+
     for (const chunk of tweetChunks) {
+        console.log("chunk:", chunk);
+        console.log("previousTweetId:", previousTweetId);
+        console.log("image:", typeof image, image);
         const result = await client.requestQueue.add(
             async () =>
+                // Scraper.sentTweet(text, tweetIdToReply, mediaData) 
                 await client.twitterClient.sendTweet(
                     chunk.trim(),
-                    previousTweetId
+                    previousTweetId,
+                    [
+                        {
+                          data: fs.readFileSync('/Users/nori/Project/celestai/output_0.png'),
+                          mediaType: 'image/png'
+                        }
+                    ]
                 )
         );
         // Parse the response
@@ -198,7 +211,7 @@ export async function sendTweet(
             permanentUrl: `https://twitter.com/${twitterUsername}/status/${tweetResult.rest_id}`,
             hashtags: [],
             mentions: [],
-            photos: [],
+            photos: image ?? [image],
             thread: [],
             urls: [],
             videos: [],

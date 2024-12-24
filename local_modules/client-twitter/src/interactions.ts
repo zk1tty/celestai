@@ -17,49 +17,87 @@ import {
 import { ClientBase } from "./base";
 import { buildConversationThread, sendTweet, wait } from "./utils.ts";
 import { embeddingZeroVector } from "@ai16z/eliza";
+import Replicate from "replicate";
+import { promises as fsPromises } from 'fs';
+import dotenv from 'dotenv';
+dotenv.config()
+
+const model = 'stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc'
+const getInputWithPrompt = (prompt: string) => {
+    return {
+        // image: "/Users/nori/Project/celestai/local_modules/client-twitter/src/image/tarrot-template.png",
+        width: 768,
+        height: 768,
+        prompt: prompt 
+            ? prompt
+            : "The deck of three tarot cards regarding to crypto affairs; \nthe left one is \"Whale\" which is a big whale tarot card, the middle one is \"Moon\", and the right one is \"HODLer\" who holds the a bitcoin token with patience. The design ascetic is Y2K, background color is pastel pink.",
+        refine: "expert_ensemble_refiner",
+        scheduler: "K_EULER",
+        lora_scale: 0.6,
+        num_outputs: 1,
+        guidance_scale: 7.5,
+        apply_watermark: false,
+        high_noise_frac: 0.8,
+        negative_prompt: "",
+        prompt_strength: 0.8,
+        num_inference_steps: 50
+      }
+}
+const input = {
+    // image: "/Users/nori/Project/celestai/local_modules/client-twitter/src/image/tarrot-template.png",
+    width: 768,
+    height: 768,
+    prompt: "The deck of three tarot cards regarding to crypto affairs; \nthe left one is \"Whale\"(the name of card), the middle one is \"Moon\" (overhyped but promising energy), and the right one is \"HODLer\" who holds the one token with patience. The design ascetic is Y2K, background color is pastel pink. ",
+    refine: "expert_ensemble_refiner",
+    scheduler: "K_EULER",
+    lora_scale: 0.6,
+    num_outputs: 1,
+    guidance_scale: 7.5,
+    apply_watermark: false,
+    high_noise_frac: 0.8,
+    negative_prompt: "",
+    prompt_strength: 0.8,
+    num_inference_steps: 50
+  }
 
 export const twitterMessageHandlerTemplate =
-    `
+`
 # Knowledge
 {{knowledge}}
 
-# Task: Generate a post for the character {{agentName}}.
+# Task: Generate a post/reply in the voice, style, and perspective of {{agentName}} (@{{twitterUserName}}).
 About {{agentName}} (@{{twitterUserName}}):
 {{bio}}
 {{lore}}
 {{topics}}
 
-{{providers}}
-
-{{characterPostExamples}}
-
-{{postDirections}}
+# Example interactions to follow:
+{{messageExamples}}
 
 Recent interactions between {{agentName}} and other users:
 {{recentPostInteractions}}
 
 {{recentPosts}}
 
+# Task: Generate a post/reply in the voice, style, and perspective of {{agentName}} (@{{twitterUserName}}).
+- The reply should match the tone, brevity, and engagement style seen in {{messageExamples}}.
+- Add relevant context based on the thread of tweets below.
+- Structure the reply to include short, concise sentences and use no more than one emoji.
 
-# Task: Generate a post/reply in the voice, style and perspective of {{agentName}} (@{{twitterUserName}}).
-You may use one emoji. No hashtag. 
-Use {{knowledge}} to generate the answer of questions related to token claim instruction.
-Try to use the thread of tweets as additional context.
-If the current post is not English, generate the post in the same language of current thrad:
+Current Tweet:  
 {{currentPost}}
-Thread of Tweets You Are Replying To:
 
+Thread of Tweets for Context:  
 {{formattedConversation}}
 
-{{actions}}
+# Additional Instructions:
+1. If the current post is not in English, generate the reply in the same language as the current thread.
+2. If the tweet asks a question or seeks input, the response should be conversational and align with {{topics}}.
+3. Ensure the reply captures the engaging tone and personality traits of {{agentName}}.
 
-# Task: Generate a post in the voice, style and perspective of {{agentName}} (@{{twitterUserName}}).
-You may use one emoji. No hashtag. Write acouple of short and consice sentence. Include $PENGU simple to the post. 
-If the current post is not English, generate the post in the same language of current thrad.
-Follow the style of  {{characterPostExamples}}.
-Include an action, if appropriate. {{actionNames}}:
-{{currentPost}}
+# Generate the reply below:
 ` + messageCompletionFooter;
+
 
 // return: "RESPOND" | "IGNORE" | "STOP"
 export const twitterShouldRespondTemplate =
@@ -119,13 +157,13 @@ export class TwitterInteractionClient {
                 // DONE: changeed SearchMode from LATEST to TOP
                 await this.client.fetchSearchTweets(
                     `@${this.runtime.getSetting("TWITTER_USERNAME")}`,
-                    20,
+                    10,
                     SearchMode.Latest
                 )
             ).tweets;
 
             tweetCandidates.forEach(elm => {
-                console.log("candiadtes-tweetUrl:", elm.permanentUrl);
+                console.log("mention-tweetUrl:", elm.permanentUrl);
             });
 
             // de-duplicate tweetCandidates with a set
@@ -350,13 +388,40 @@ export class TwitterInteractionClient {
         if (response.text) {
             try {
                 const callback: HandlerCallback = async (response: Content) => {
-                    // TODO: add image to tweets
+
+                    // text to image
+                    const replicate = new Replicate({
+                        auth: process.env.REPLICATE_API_TOKEN,
+                      });
+                    const prompt = `Generate the image to visualize the concept of tarot card or card deck of the next text: ${response.text}`
+                    const inputToImage = getInputWithPrompt(prompt);
+                    const output = await replicate.run(model, { input: inputToImage });
+                      // save the image on local
+                    for (const [index, item] of Object.entries(output)) {
+                        await fsPromises.writeFile(`output_${index}.png`, item);
+                    }
+                    // TODO: add image to sentTweets
+                    // // Example: Sending a tweet with media attachments
+                    // const mediaData = [
+                    //     {
+                    //       data: fs.readFileSync('path/to/image.jpg'),
+                    //       mediaType: 'image/jpeg'
+                    //     },
+                    //     {
+                    //       data: fs.readFileSync('path/to/video.mp4'),
+                    //       mediaType: 'video/mp4'
+                    //     }
+                    //   ];
+                    
+                    //   await scraper.sendTweet('Hello world!', undefined, mediaData);
+  
                     const memories = await sendTweet(
                         this.client,
                         response,
                         message.roomId,
                         this.runtime.getSetting("TWITTER_USERNAME"),
-                        tweet.id
+                        tweet.id,
+                        output[0]
                     );
                     return memories;
                 };
