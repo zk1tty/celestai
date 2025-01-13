@@ -9,6 +9,12 @@ import {
 } from "@ai16z/eliza";
 import { elizaLogger } from "@ai16z/eliza";
 import { ClientBase } from "./base.ts";
+import { promises as fsPromises } from 'fs';
+import dotenv from 'dotenv';
+dotenv.config()
+
+const pathTotarotCards = '/Users/nori/Project/celestai/local_modules/client-twitter/src/tarotCards.json';
+const tarotCards = JSON.parse(await fsPromises.readFile(pathTotarotCards, 'utf-8'));
 
 const twitterPostTemplate =`
 # Knowledge
@@ -24,6 +30,7 @@ About {{agentName}} (@{{twitterUserName}}):
 {{recentPosts}}
 
 # Task: Generate a post in the voice and style of {{agentName}}, aka @{{twitterUserName}}
+Give the daily tarrot and give astrological prediction for each zodiac signs.
 Write a single sentence post that is {{adjective}} about {{topic}} (without mentioning {{topic}} directly), from the perspective of {{agentName}}.
 Try to write something totally different than previous posts. Do not add commentary or acknowledge this request, just write the post.
 Your response should not contain any questions. Brief, concise statements only. Use \\n\\n (double spaces) between statements.
@@ -54,7 +61,7 @@ const styledLog = (message: string) => {
 /**
  * Truncate text to fit within the Twitter character limit, ensuring it ends at a complete sentence.
  */
-function truncateToCompleteSentence(text: string): string {
+export function truncateToCompleteSentence(text: string): string {
     if (text.length <= MAX_TWEET_LENGTH) {
         return text;
     }

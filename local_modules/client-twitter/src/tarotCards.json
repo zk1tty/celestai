@@ -1,0 +1,38 @@
+[
+    {
+        "name": "The Whale",
+        "visuals": "A giant blue whale with gold tokens floating around it. Waves made of blockchain patterns.",
+        "meaning": "Big influence or market-moving force. Could signify opportunity (uplift) or risk (dump).",
+        "tagline": "Ride the wave or get wrecked."
+    },
+    {
+        "name": "The Rugpull",
+        "visuals": "A cartoonish but dramatic image of a rug being pulled, with DeFi tokens spilling out.",
+        "meaning": "Sudden betrayal, loss, or scam. Proceed with caution.",
+        "tagline": "It’s not paranoia if it’s true."
+    },
+    {
+        "name": "The Gas Spike",
+        "visuals": "A burning Ethereum logo with exaggerated gas meters and coins evaporating.",
+        "meaning": "Unexpected costs or inefficiencies. Time to optimize.",
+        "tagline": "The cost of ambition burns."
+    },
+    {
+        "name": "The Airdrop",
+        "visuals": "A glowing treasure chest descending from the sky, with tokens and NFTs spilling out.",
+        "meaning": "Surprise rewards or opportunities. Stay alert.",
+        "tagline": "Blessings from the DAO gods."
+    },
+    {
+        "name": "The Meme Coin",
+        "visuals": "A rocket ship piloted by a Shiba Inu, flying toward the moon with comic-style 'POW!' explosions.",
+        "meaning": "High-risk, high-reward gamble.",
+        "tagline": "Laugh your way to the moon (or the grave)."
+    },
+    {
+        "name": "The Pump",
+        "visuals": "A glowing token surrounded by flashing neon arrows and a chaotic market screen, symbolizing hype and rapid movement.",
+        "meaning": "Hyped token because of weird market trends.",
+        "tagline": "Ascend with the energy of the crowd."  
+    }
+]

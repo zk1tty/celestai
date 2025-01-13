@@ -398,5 +398,5 @@ export const character: Character = {
     //         "don't dodge questions, being based is about owning your ideas and being confident in them",
     //         "dive deeper into stuff when its interesting",
     //     ],
-    // },
+    // }
 };

@@ -16,6 +16,7 @@ import {
 } from "@ai16z/eliza";
 import { ClientBase } from "./base";
 import { buildConversationThread, sendTweet, wait } from "./utils.ts";
+import { truncateToCompleteSentence } from "./post.ts";
 import { embeddingZeroVector } from "@ai16z/eliza";
 import Replicate from "replicate";
 import { promises as fsPromises } from 'fs';
@@ -59,6 +60,8 @@ const input = {
     prompt_strength: 0.8,
     num_inference_steps: 50
   }
+const pathTotarotCards = '/Users/nori/Project/celestai/local_modules/client-twitter/src/tarotCards.json';
+const tarotCards = JSON.parse(await fsPromises.readFile(pathTotarotCards, 'utf-8'));
 
 export const twitterMessageHandlerTemplate =
 `
@@ -80,6 +83,10 @@ Recent interactions between {{agentName}} and other users:
 {{recentPosts}}
 
 # Task: Generate a post/reply in the voice, style, and perspective of {{agentName}} (@{{twitterUserName}}).
+Draw one tarot cards from the list of cards.` 
++ JSON.stringify(tarotCards)
++ `
+And share the future predisction of token/portfolio sentiment with taglines and the meaning of card.
 - The reply should match the tone, brevity, and engagement style seen in {{messageExamples}}.
 - Add relevant context based on the thread of tweets below.
 - Structure the reply to include short, concise sentences and use no more than one emoji.
@@ -156,7 +163,7 @@ export class TwitterInteractionClient {
                 // memtions, new reply?
                 // DONE: changeed SearchMode from LATEST to TOP
                 await this.client.fetchSearchTweets(
-                    `@${this.runtime.getSetting("TWITTER_USERNAME")}`,
+                    `@${twitterUsername}`,
                     10,
                     SearchMode.Latest
                 )
@@ -382,18 +389,24 @@ export class TwitterInteractionClient {
         const stringId = stringToUuid(tweet.id + "-" + this.runtime.agentId);
 
         response.inReplyTo = stringId;
+    
+        const formattedResponse = truncateToCompleteSentence(response.text);
 
-        response.text = removeQuotes(response.text);
+        response.text = removeQuotes(formattedResponse);
 
         if (response.text) {
             try {
                 const callback: HandlerCallback = async (response: Content) => {
 
-                    // text to image
+                    // text to imageyp
                     const replicate = new Replicate({
                         auth: process.env.REPLICATE_API_TOKEN,
                       });
-                    const prompt = `Generate the image to visualize the concept of tarot card or card deck of the next text: ${response.text}`
+                      const tarotCards = JSON.parse(await fsPromises.readFile('/Users/nori/Project/celestai/local_modules/client-twitter/src/tarotCards.json', 'utf-8'));
+                    const prompt = `# Post: ${response.text}. 
+                      # Task: 
+                       1. In the post, Celest draws one one tarot card from the list. ${JSON.stringify(tarotCards)}. What is the name of card?
+                       2. Generate the image of the card by following the visual attribute. The design is Y2K style, and pink background color.`
                     const inputToImage = getInputWithPrompt(prompt);
                     const output = await replicate.run(model, { input: inputToImage });
                       // save the image on local
