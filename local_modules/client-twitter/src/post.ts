@@ -13,8 +13,8 @@ import { promises as fsPromises } from 'fs';
 import dotenv from 'dotenv';
 dotenv.config()
 
-const pathTotarotCards = '/Users/nori/Project/celestai/local_modules/client-twitter/src/tarotCards.json';
-const tarotCards = JSON.parse(await fsPromises.readFile(pathTotarotCards, 'utf-8'));
+const pathToTarotCards = new URL('tarotCards.json', import.meta.url).pathname;
+const tarotCards = JSON.parse(await fsPromises.readFile(pathToTarotCards, 'utf-8'));
 
 const twitterPostTemplate =`
 # Knowledge

@@ -189,7 +189,7 @@ export async function sendTweet(
                     previousTweetId,
                     [
                         {
-                          data: fs.readFileSync('/Users/nori/Project/celestai/output_0.png'),
+                          data: fs.readFileSync(new URL('output_0.png', import.meta.url)),
                           mediaType: 'image/png'
                         }
                     ]

@@ -23,10 +23,11 @@ import { promises as fsPromises } from 'fs';
 import dotenv from 'dotenv';
 dotenv.config()
 
+const pathToTarotCards = new URL('tarotCards.json', import.meta.url).pathname;
 const model = 'stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc'
 const getInputWithPrompt = (prompt: string) => {
     return {
-        // image: "/Users/nori/Project/celestai/local_modules/client-twitter/src/image/tarrot-template.png",
+        // image: "/Users/nori/Project/eliza-agents/celestai/local_modules/client-twitter/src/image/tarrot-template.png",
         width: 768,
         height: 768,
         prompt: prompt 
@@ -45,7 +46,7 @@ const getInputWithPrompt = (prompt: string) => {
       }
 }
 const input = {
-    // image: "/Users/nori/Project/celestai/local_modules/client-twitter/src/image/tarrot-template.png",
+    // image: "/Users/nori/Project/eliza-agents/celestai/local_modules/client-twitter/src/image/tarrot-template.png",
     width: 768,
     height: 768,
     prompt: "The deck of three tarot cards regarding to crypto affairs; \nthe left one is \"Whale\"(the name of card), the middle one is \"Moon\" (overhyped but promising energy), and the right one is \"HODLer\" who holds the one token with patience. The design ascetic is Y2K, background color is pastel pink. ",
@@ -60,7 +61,7 @@ const input = {
     prompt_strength: 0.8,
     num_inference_steps: 50
   }
-const pathTotarotCards = '/Users/nori/Project/celestai/local_modules/client-twitter/src/tarotCards.json';
+const pathTotarotCards = '/Users/nori/Project/eliza-agents/celestai/local_modules/client-twitter/src/tarotCards.json';
 const tarotCards = JSON.parse(await fsPromises.readFile(pathTotarotCards, 'utf-8'));
 
 export const twitterMessageHandlerTemplate =
@@ -402,7 +403,7 @@ export class TwitterInteractionClient {
                     const replicate = new Replicate({
                         auth: process.env.REPLICATE_API_TOKEN,
                       });
-                      const tarotCards = JSON.parse(await fsPromises.readFile('/Users/nori/Project/celestai/local_modules/client-twitter/src/tarotCards.json', 'utf-8'));
+                      const tarotCards = JSON.parse(await fsPromises.readFile(pathToTarotCards, 'utf-8'));
                     const prompt = `# Post: ${response.text}. 
                       # Task: 
                        1. In the post, Celest draws one one tarot card from the list. ${JSON.stringify(tarotCards)}. What is the name of card?
